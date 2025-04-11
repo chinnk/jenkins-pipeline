@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent any 
     environment {
         APACHE_LOG = '/var/log/apache2/access.log'
     }
