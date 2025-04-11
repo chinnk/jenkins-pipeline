@@ -1,14 +1,21 @@
 pipeline {
-    agent {
-        label 'ubuntu-22.04' 
-    }
+    agent any
     environment {
         APACHE_LOG = '/var/log/apache2/access.log'
     }
     stages {
         stage('Preparation') {
             steps {
-                sh 'sudo apt update'
+                script {
+                    try {
+                        sh '''
+                            sudo apt update
+                            sudo apt install -y curl
+                        '''
+                    } catch (Exception e) {
+                        error "Failed to run preparation steps: ${e}"
+                    }
+                }
             }
         }
         stage('Install Apache2') {
